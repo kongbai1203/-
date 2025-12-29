@@ -12,13 +12,15 @@ PARAMS = {
     "μF": "1μF",  # 修改μF值
     "suffix": 4  # 修改尾缀
 }
-# =========================================
 
 # 固定参数配置
 CIRCLE_CENTER = (914, 554)  # 圆心坐标 (x, y)
 CIRCLE_RADIUS = 20  # 圆的半径
 GAUSSIAN_SIGMA = 2.0
-FILE_PATTERN = "MBS_100.1HZ_100FPS_2"
+FILE_PATTERN = "MBS_100.1HZ_100FPS_2" #所处理照片文件夹名称
+# =========================================
+
+
 
 # 自动生成路径
 folder_name = FILE_PATTERN.format(**PARAMS)
@@ -73,4 +75,5 @@ def main():
 if __name__ == "__main__":
     print(f"当前处理参数: μF={PARAMS['μF']}, 尾缀={PARAMS['suffix']}")
     main()
+
     print("=== 文件名数据已提取完毕 ===")
