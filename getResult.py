@@ -7,19 +7,18 @@ from glob import glob
 import re
 
 # ============== 只需修改这里 ==============
-BASE_DIR = "D:/study/work/test_photo"
+BASE_DIR = "D:/study/work/test_photo" #所处理的照片文件夹所在路径
 PARAMS = {
     "μF": "1μF",  # 修改μF值
     "suffix": 4 # 修改尾缀
 }
-# =========================================
 
 # 固定参数配置
-ROI_TOP_LEFT = (473, 486)
-ROI_BOTTOM_RIGHT = (491, 603)
+ROI_TOP_LEFT = (473, 486) #选取矩形区域左上点坐标
+ROI_BOTTOM_RIGHT = (491, 603) #选取矩形区域右下点所在坐标
 GAUSSIAN_SIGMA = 2.0
-FILE_PATTERN = "MB7_201HZ_200FPS_12_1"
-
+FILE_PATTERN = "MB7_201HZ_200FPS_12_1" #所处理的照片文件夹名称
+# =========================================
 # 自动生成路径
 folder_name = FILE_PATTERN.format(**PARAMS)
 INPUT_DIR = os.path.join(BASE_DIR, folder_name)
@@ -69,3 +68,4 @@ if __name__ == "__main__":
     print(f"当前处理参数: μF={PARAMS['μF']}, 尾缀={PARAMS['suffix']}")
     main()
     print("=== 文件名数据已提取完毕 ===")
+
