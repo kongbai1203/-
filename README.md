@@ -1,14 +1,14 @@
 # 荧光衰减多周期分析系统 (Fluorescence Decay Multi-cycle Analysis Pipeline)
 
-本套脚本提供了一个从原始视频数据到高精度荧光寿命拟合的完整工作流。主要用于处理周期性发光信号，通过多周期数据合并和非线性最小二乘法（LSM）实现精确的寿命（）提取。
+本套脚本提供了一个从原始视频数据到高精度荧光寿命拟合的完整工作流。主要用于处理周期性发光信号，通过多周期数据合并和非线性最小二乘法（LSM）实现精确的寿命提取。
 
 ## 📂 文件结构与功能总览
 
-| 文件名             | 核心功能                                                              | 主要处理对象 |
-| `videodepart.py`   | **视频分帧**：将 `.mp4` 或 `.avi` 视频转换为逐帧的 `.jpg` 图片。        | 原始视频文件 |
-| `roi_cycle_get.py` | **圆形 ROI 提取**：在灰度图中提取指定圆心和半径区域的平均灰度值。        | 视频帧序列 |
-| `getResult.py`     | **矩形 ROI 提取**：在彩色图中提取红色通道特定矩形区域的均值。            | 视频帧序列 |
-| `multicycle(1).py` | **多周期拟合与合并**：自动识别衰减段，对齐多个周期并合并拟合，输出寿命 。 | 生成的 CSV 数据 |
+| 文件名             | 核心功能                                                                 | 主要处理对象    |
+| `videodepart.py`   | **视频分帧**：将 `.mp4` 或 `.avi` 视频转换为逐帧的 `.jpg` 图片。         | 原始视频文件    |
+| `roi_cycle_get.py` | **圆形 ROI 提取**：在灰度图中提取指定圆心和半径区域的平均灰度值。         | 视频帧序列      |
+| `getResult.py`     | **矩形 ROI 提取**：在彩色图中提取红色通道特定矩形区域的均值。             | 视频帧序列      |
+| `multicycle.py` | **多周期拟合与合并**：自动识别衰减段，对齐多个周期并合并拟合，输出寿命 。    | 生成的 CSV 数据 |
 
 ---
 
@@ -29,7 +29,7 @@
 * **`getResult.py`**：专门针对红色通道信号，采用矩形 ROI。
 * **输出**：生成一个包含 `Index`（帧号）和 `MeanGrayValue`（平均值）的 CSV 文件。
 
-### 3. 多周期分析与寿命拟合 (`multicycle(1).py`)
+### 3. 多周期分析与寿命拟合 (`multicycle.py`)
 
 这是整个项目的核心算法部分，包含以下关键技术：
 
@@ -61,11 +61,11 @@ pip install numpy pandas matplotlib opencv-python scipy
 * 在 `getResult.py` 中修改 `ROI_TOP_LEFT` 和 `ROI_BOTTOM_RIGHT`。
 
 
-* **时间参数**：在 `multicycle(1).py` 中，`dt`（采样间隔）需根据相机的 FPS 设定（例如 100FPS 对应 ）。
+* **时间参数**：在 `multicycle.py` 中，`dt`（采样间隔）需根据相机的 FPS 设定（例如 100FPS 对应 ）。
 
 ---
 
-## 📊 算法详情：`multicycle(1).py`
+## 📊 算法详情：`multicycle.py`
 
 该脚本采用了一种创新的多周期合并策略：
 
@@ -79,4 +79,5 @@ pip install numpy pandas matplotlib opencv-python scipy
 
 * **数据精度**：`multicycle` 脚本默认将时间单位统一为微秒 ()。
 * **可视化**：拟合过程中会实时弹出 Matplotlib 窗口，展示当前合并的进度和最终结果图。
+
 
