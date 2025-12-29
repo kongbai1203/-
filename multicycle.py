@@ -3,6 +3,13 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from scipy.optimize import curve_fit
 
+#========================================只需修改此处========================================
+fps_value=200 #设置帧率FPS
+dt = 9.99e-6  #设置频差，如100FPS与100.1HZ的频差为9.99微秒
+# 加载数据
+data = pd.read_csv(r"D:\study\work\test_photo\MBL_100.1HZ_100FPS_2\MBL_100.1HZ_100FPS_2_frame_mean_values.csv") #所处理文件路径
+#============================================================================================
+
 # 设置字体为支持中文的字体
 plt.rcParams['font.family'] = 'Times New Roman, SimSun'
 plt.rcParams['axes.unicode_minus'] = False  # 解决负号显示问题
@@ -143,15 +150,11 @@ def extract_decay_segments(time_data, signal, threshold=0., min_length=4, max_up
     return decay_segments, decay_times, start_indices
 
 
-# 加载数据
-data = pd.read_csv(r"D:\study\work\test_photo\MBL_100.1HZ_100FPS_2\MBL_100.1HZ_100FPS_2_frame_mean_values.csv")
-
 # 根据 Index 对数据进行排序sshuju
 data = data.sort_values(by='Index').reset_index(drop=True)
 
 # 提取时间序列和信号
 Index = data['Index'].values
-dt = 9.99e-6
 time_data = Index * dt
 signal = data['MeanGrayValue'].values
 
@@ -183,7 +186,7 @@ for i, (segment, t_segment, start_idx) in enumerate(zip(decay_segments, decay_ti
 if decay_lengths:
     average_length = np.mean(decay_lengths)
     print(f"\n平均衰减序列长度: {average_length:.2f} 个数据点")
-    print(f"对应的平均时间长度: {average_length / 100 * 1000:.2f} ms")  # 200FPS转换为毫秒
+    print(f"对应的平均时间长度: {average_length / fps_value * 1000:.2f} ms")  # FPS转换为毫秒
     print(f"\n平均信号: {np.mean(max_first):.2f} ")
 
 # 对每个周期进行拟合
@@ -493,4 +496,5 @@ if best_fit is not None:
 
         plt.show()
     except RuntimeError as e:
+
         print(f"最终拟合失败：{str(e)}")
