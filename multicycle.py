@@ -365,12 +365,13 @@ if best_fit is not None:
         # 根据第一个合并数据点大小在理论曲线上的位置调整时间
         first_point_value = segment[0]
         # 求解理论曲线上等于 first_point_value 对应的时间
-        try:
+        ratio=(first_point_value - B_best) / A_best
+        if ratio > 0:
+            #防止对数错误
             adjusted_time_shift = -tau_best * np.log((first_point_value - B_best) / A_best)
             aligned_time = aligned_time + adjusted_time_shift
-        except ValueError:
+        else:
             print(f"周期 {cycle_idx + 1} 无法根据第一个数据点调整时间，可能数据点超出理论曲线范围")
-            continue
 
         # 优化该周期的时间偏移量
         optimal_shift, shift_valid = optimize_time_shift(
@@ -498,3 +499,4 @@ if best_fit is not None:
     except RuntimeError as e:
 
         print(f"最终拟合失败：{str(e)}")
+
